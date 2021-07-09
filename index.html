@@ -19,6 +19,7 @@
 		}
 
 		span {
+			position: relative;
 			display: block;
 			flex: 0 1 100%;
 			min-width: 50px;
@@ -29,12 +30,26 @@
 			user-select: none;
 			padding-top: 10%;
 			text-transform: uppercase;
+			overflow: hidden;
 		}
 
 		span.bg {
 			color: white;
-			background-color: black;
-			transition: all .3s;
+			transition: all .8s;
+			background-color: #000;
+		}
+
+		span .bubble {
+			content: '';
+			position: absolute;
+			border-radius: 50%;
+			background-color: #000;
+			top: 0;
+			left: 0;
+			width: 30px;
+			height: 30px;
+			transition: transform .8s;
+			z-index: -1;
 		}
 	</style>
 </head>
@@ -51,7 +66,7 @@
 		window.onload = () => {
 			alert(
 				"Ваше завдання заповнити всі елементи списку чорним кольором, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів."
-				)
+			)
 		}
 
 		const span = document.querySelectorAll("span")
@@ -61,11 +76,23 @@
 		let orientationWin = true
 		let winNum = 0
 		span.forEach((i, n) => {
-			let toggleClass = () => {
+			let toggleClass = (e) => {
+
+
 				i.classList.toggle("bg")
 				if (i.classList.contains("bg")) {
 					if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
 					if (n === 0) span[span.length - 1].classList.remove("bg")
+
+					const bubble = document.createElement("div")
+					bubble.classList.add("bubble")
+					i.appendChild(bubble)
+					bubble.style.top = (e.offsetY - bubble.offsetHeight / 2) + "px"
+					bubble.style.left = (e.offsetX - bubble.offsetWidth / 2) + "px"
+					bubble.style.transform = "scale(50)"
+					setTimeout(() => {
+						bubble.remove()
+					}, 500)
 				}
 				nums[n]++
 				let newNums = nums.filter((i, n) => i !== n + 1)
