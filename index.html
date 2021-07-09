@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mystery List</title>
+	<style>
+		body {
+			background: #2d2d2d;
+			text-align: center;
+		}
+
+		span {
+			display: block;
+			min-width: 50px;
+			font-size: 20px;
+			border: 1px solid;
+			margin: 10px 0;
+			transition: all .3s;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		span.bg {
+			color: white;
+			background-color: black;
+			transition: all .3s;
+		}
+	</style>
+</head>
+
+<body>
+	<span>one</span>
+	<span>two</span>
+	<span>three</span>
+	<span>four</span>
+	<span>five</span>
+	<span>six</span>
+	<span>seven</span>
+	<script>
+		const span = document.querySelectorAll("span")
+
+		span.forEach((i, n) => {
+			let toggleClass = () => {
+				i.classList.toggle("bg")
+				if (i.classList.contains("bg")) {
+					if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
+					if (n === 0) span[span.length - 1].classList.remove("bg")
+				}
+			}
+			i.addEventListener("click", toggleClass)
+		})
+
+		screen.orientation.onchange = function () {
+			console.log(screen.orientation.type);
+			if (screen.orientation.type === "landscape-primary") {
+				console.log("Ви перевернули екран")
+			}
+		};
+	</script>
+</body>
+
+</html>
