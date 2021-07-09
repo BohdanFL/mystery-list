@@ -49,11 +49,13 @@
 
 			screen.orientation.onchange = function () {
 				if (customOrientation.test(screen.orientation.type)) {
+					console.log(screen.orientation.type)
 					span.forEach((i, n) => {
 						if (!i.classList.contains("bg")) {
 							i.classList.add("bg")
 						}
 					})
+					alert("Ви перемогли. Але це не єдиний спосіб.")
 				}
 			};
 			span.forEach((i, n) => {
