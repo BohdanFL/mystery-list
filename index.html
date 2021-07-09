@@ -8,19 +8,25 @@
 	<title>Mystery List</title>
 	<style>
 		body {
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
 			background: gray;
 			text-align: center;
+			overflow: hidden;
 		}
 
 		span {
 			display: block;
 			min-width: 50px;
-			font-size: 20px;
+			font-size: 30px;
 			border: 1px solid;
-			margin: 10px 0;
 			transition: all .3s;
 			cursor: pointer;
 			user-select: none;
+			padding: 15px 0;
+			text-transform: uppercase;
 		}
 
 		span.bg {
@@ -42,22 +48,21 @@
 	<script>
 		window.onload = () => {
 			const span = document.querySelectorAll("span")
-			const customOrientation = /landscape|landscape-primary|landscape-secondary/
+			// const detectModile = /Mobile|Android|webOS|iP(ad|od|hone)|BlackBerry|BB|PlayBook|IEMobile|MeeGo|mini|Fennec|Windows Phone|Kindle|Silk|Opera Mini/
+			const nums = {
+				one: 0,
+				two: 0,
+				three: 0,
+				four: 0,
+				five: 0,
+				six: 0,
+				seven: 0
+			}
+			let isWinner = true
+			alert(
+				"Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів."
+			)
 
-			alert("Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код.")
-			if (customOrientation.test(screen.orientation.type)) {}
-
-			screen.orientation.onchange = function () {
-				if (customOrientation.test(screen.orientation.type)) {
-					console.log(screen.orientation.type)
-					span.forEach((i, n) => {
-						if (!i.classList.contains("bg")) {
-							i.classList.add("bg")
-						}
-					})
-					alert("Ви перемогли. Але це не єдиний спосіб.")
-				}
-			};
 			span.forEach((i, n) => {
 				let toggleClass = () => {
 					i.classList.toggle("bg")
@@ -68,6 +73,24 @@
 				}
 				i.addEventListener("click", toggleClass)
 			})
+
+			function winner() {
+				if (isWinner) {
+					span.forEach((i, n) => {
+						if (!i.classList.contains("bg")) i.classList.add("bg")
+					})
+					alert("Ви перемогли. Але це не єдиний спосіб.")
+					isWinner = false
+				}
+			}
+			if (window.innerWidth > window.innerHeight) {
+				winner()
+			}
+			window.onresize = () => {
+				if (window.innerWidth > window.innerHeight) {
+					winner()
+				}
+			}
 		}
 	</script>
 </body>
