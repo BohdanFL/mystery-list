@@ -52,20 +52,14 @@
 		window.onload = () => {
 			const span = document.querySelectorAll("span")
 			// const detectModile = /Mobile|Android|webOS|iP(ad|od|hone)|BlackBerry|BB|PlayBook|IEMobile|MeeGo|mini|Fennec|Windows Phone|Kindle|Silk|Opera Mini/
-			const nums = {
-				one: 0,
-				two: 0,
-				three: 0,
-				four: 0,
-				five: 0,
-				six: 0,
-				seven: 0
-			}
-			let isWinner = true
-			alert(
-				"Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів."
-			)
+			let nums = [0, 0, 0, 0, 0, 0, 0]
 
+			let orientationWin = true
+			let numsWin = true
+			// alert("Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів.")
+			let winNum = 0
+			const text = winNum === 0 ? "Ви перемогли. Але це не єдиний спосіб." : winNum === 1 ?
+				"Ви перемогли всіма способами." : false
 			span.forEach((i, n) => {
 				let toggleClass = () => {
 					i.classList.toggle("bg")
@@ -73,25 +67,28 @@
 						if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
 						if (n === 0) span[span.length - 1].classList.remove("bg")
 					}
+					nums[n]++
+					let newNums = nums.filter((i, n) => i !== n + 1)
+					if (!newNums.length) {
+						winner(numsWin)
+					}
 				}
-				i.addEventListener("click", toggleClass)
+				i.addEventListener("mousedown", toggleClass)
 			})
 
-			function winner() {
+			function winner(isWinner) {
 				if (isWinner) {
 					span.forEach((i, n) => {
 						if (!i.classList.contains("bg")) i.classList.add("bg")
 					})
-					alert("Ви перемогли. Але це не єдиний спосіб.")
+					alert(text)
 					isWinner = false
 				}
-			}
-			if (window.innerWidth > window.innerHeight) {
-				winner()
+				winNum++
 			}
 			window.onresize = () => {
 				if (window.innerWidth > window.innerHeight) {
-					winner()
+					winner(orientationWin)
 				}
 			}
 		}
