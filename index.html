@@ -8,7 +8,7 @@
 	<title>Mystery List</title>
 	<style>
 		body {
-			background: #2d2d2d;
+			background: gray;
 			text-align: center;
 		}
 
@@ -40,25 +40,33 @@
 	<span>six</span>
 	<span>seven</span>
 	<script>
-		const span = document.querySelectorAll("span")
+		window.onload = () => {
+			const span = document.querySelectorAll("span")
+			const customOrientation = /landscape|landscape-primary|landscape-secondary/
 
-		span.forEach((i, n) => {
-			let toggleClass = () => {
-				i.classList.toggle("bg")
-				if (i.classList.contains("bg")) {
-					if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
-					if (n === 0) span[span.length - 1].classList.remove("bg")
+			alert("Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код.")
+			if (customOrientation.test(screen.orientation.type)) {}
+
+			screen.orientation.onchange = function () {
+				if (customOrientation.test(screen.orientation.type)) {
+					span.forEach((i, n) => {
+						if (!i.classList.contains("bg")) {
+							i.classList.add("bg")
+						}
+					})
 				}
-			}
-			i.addEventListener("click", toggleClass)
-		})
-
-		screen.orientation.onchange = function () {
-			console.log(screen.orientation.type);
-			if (screen.orientation.type === "landscape-primary") {
-				console.log("Ви перевернули екран")
-			}
-		};
+			};
+			span.forEach((i, n) => {
+				let toggleClass = () => {
+					i.classList.toggle("bg")
+					if (i.classList.contains("bg")) {
+						if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
+						if (n === 0) span[span.length - 1].classList.remove("bg")
+					}
+				}
+				i.addEventListener("click", toggleClass)
+			})
+		}
 	</script>
 </body>
 
