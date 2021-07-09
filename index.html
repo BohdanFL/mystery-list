@@ -50,45 +50,47 @@
 	<span>seven</span>
 	<script>
 		window.onload = () => {
-			const span = document.querySelectorAll("span")
-			// const detectModile = /Mobile|Android|webOS|iP(ad|od|hone)|BlackBerry|BB|PlayBook|IEMobile|MeeGo|mini|Fennec|Windows Phone|Kindle|Silk|Opera Mini/
-			let nums = [0, 0, 0, 0, 0, 0, 0]
+			// alert("Ваше завдання заповнити всі елементи списку чорним кольором, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів.")
+		}
 
-			let orientationWin = true
-			let numsWin = true
-			// alert("Ваша задача заповнити всі елементи списку чорним, яким завгодно способом, крім втручання в код. Тільки для телефонів або планшетів.")
-			let winNum = 0
-			const text = winNum === 0 ? "Ви перемогли. Але це не єдиний спосіб." : winNum === 1 ?
-				"Ви перемогли всіма способами." : false
-			span.forEach((i, n) => {
-				let toggleClass = () => {
-					i.classList.toggle("bg")
-					if (i.classList.contains("bg")) {
-						if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
-						if (n === 0) span[span.length - 1].classList.remove("bg")
-					}
-					nums[n]++
-					let newNums = nums.filter((i, n) => i !== n + 1)
-					if (!newNums.length) {
-						winner(numsWin)
-					}
+		const span = document.querySelectorAll("span")
+		// const detectModile = /Mobile|Android|webOS|iP(ad|od|hone)|BlackBerry|BB|PlayBook|IEMobile|MeeGo|mini|Fennec|Windows Phone|Kindle|Silk|Opera Mini/
+		let nums = [0, 0, 0, 0, 0, 0, 0]
+
+		let orientationWin = true
+		let winNum = 0
+		span.forEach((i, n) => {
+			let toggleClass = () => {
+				i.classList.toggle("bg")
+				if (i.classList.contains("bg")) {
+					if (span[n - 1] && n >= 0) span[n - 1].classList.remove("bg")
+					if (n === 0) span[span.length - 1].classList.remove("bg")
 				}
-				i.addEventListener("mousedown", toggleClass)
-			})
-
-			function winner(isWinner) {
-				if (isWinner) {
-					span.forEach((i, n) => {
-						if (!i.classList.contains("bg")) i.classList.add("bg")
-					})
-					alert(text)
-					isWinner = false
-					winNum++
+				nums[n]++
+				let newNums = nums.filter((i, n) => i !== 1)
+				if (!newNums.length) {
+					nums = []
+					winner()
+					console.log(winNum)
 				}
 			}
-			window.onresize = () => {
-				if (window.innerWidth > window.innerHeight) {
-					winner(orientationWin)
+			i.addEventListener("mousedown", toggleClass)
+		})
+
+		function winner() {
+			span.forEach((i, n) => {
+				if (!i.classList.contains("bg")) i.classList.add("bg")
+			})
+			text = winNum === 1 ? "Ви перемогли всіма способами." : "Ви перемогли. Але це не єдиний спосіб."
+			setTimeout(() => alert(text), 300)
+			if (winNum <= 1) winNum++
+		}
+		window.onresize = () => {
+			if (window.innerWidth > window.innerHeight) {
+				if (orientationWin) {
+					winner()
+					console.log(winNum)
+					orientationWin = false
 				}
 			}
 		}
